@@ -47,6 +47,11 @@ const columns = [
     dataIndex: "number",
     key: "number",
   },
+  {
+    title: 'Elapsed',
+    dataIndex: "elapsed",
+    key: "elapsed",
+  },
 ];
 
 app.get('/info', async function (req, res) {
@@ -68,6 +73,7 @@ console.log('listening on port ', port);
 var cmdPs = "ps -ef |grep -w gwan|grep -v grep|wc -l"
 var cmdMemory = "free -h|awk '{print $3}'|sed -n '2p'"
 var cmdNumber = "tail -n 100 out.log|grep Imported|awk '{print $12}'|sed -n \"\`tail -n 100 out.log|grep Imported|wc -l\`p\""
+var cmdElapsed = "tail -n 100 out.log|grep Imported|awk '{print $14}'|sed -n \"\`tail -n 100 out.log|grep Imported|wc -l\`p\""
 
 process.on('uncaughtException', function (err) {
   console.log(err.message);
@@ -146,6 +152,16 @@ function getGwanAlive() {
             if (dataSource[i].ip == ssh.host) {
               if (stdout && stdout.length>5)
               dataSource[i].number = stdout.slice(7);
+            }
+          }
+        }
+      })
+      .exec(cmdElapsed, {
+        out: function (stdout) {
+          for (let i = 0; i < ip.length; i++) {
+            if (dataSource[i].ip == ssh.host) {
+              if (stdout && stdout.length>5)
+              dataSource[i].elapsed = stdout.slice(13);
             }
           }
         }

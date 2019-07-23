@@ -49,6 +49,19 @@ export default class App extends React.Component {
     return (<Tag color={color} key={record}>{value}</Tag>)
   }
 
+  renderElapsed = (value, record)=>{
+    let color = 'green';
+    if(!value) {
+      color = 'red';
+      return (<Tag color={color} key={record}>{'None'}</Tag>)
+    }
+
+    if(value >= 5) {
+      color = 'orange'
+    }
+    return (<Tag color={color} key={record}>{value}</Tag>)
+  }
+
   info = ()=>{
     $.get(('http://localhost:8000/info'), function(result) {
       console.log(result)
@@ -56,6 +69,8 @@ export default class App extends React.Component {
       result.columns[3].render = this.renderMem;
       result.columns[2].render = this.renderGwan;
       result.columns[4].render = this.renderNumber;
+      result.columns[5].render = this.renderElapsed;
+
 
       this.setState({dataSource: result.dataSource, columns: result.columns})
     }.bind(this));
