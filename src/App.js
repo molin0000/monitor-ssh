@@ -1,28 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Button } from 'antd';
+import { Table } from 'antd';
+import $ from 'jquery';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button>Hello World</Button>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  dataSource = [];
+  columns = [];
+
+  componentDidMount() {
+    setInterval(()=>{
+      $.get(('http://localhost:8000'), function(result) {
+        console.log(result)
+        if(!result["dataSource"]) { return }
+        this.dataSource = result.dataSource;
+        this.columns = result.columns;
+      }.bind(this));
+    }, 5000, null);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="Head"></div>
+        <div className="Body">
+          <Table dataSource={this.dataSource} columns={this.columns} className="Table" />
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
