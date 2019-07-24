@@ -6,6 +6,37 @@ yarn
 node src/server.js
 
 ```
+![img](./public/ui.png)
+
+```
+ubuntu@ip-172-31-8-221:~/monitor-ssh$ git diff
+diff --git a/src/App.js b/src/App.js
+index 9b5ffa2..317aa01 100644
+--- a/src/App.js
++++ b/src/App.js
+@@ -63,7 +63,7 @@ export default class App extends React.Component {
+   }
+
+   info = ()=>{
+-    $.get(('http://localhost:8000/info'), function(result) {
++    $.get(('http://54.183.96.28:8000/info'), function(result) {
+       console.log(result)
+       if(!result["dataSource"]) { return }
+       result.columns[3].render = this.renderMem;
+diff --git a/src/server.js b/src/server.js
+index c38fc59..3c520ad 100644
+--- a/src/server.js
++++ b/src/server.js
+@@ -113,7 +113,7 @@ for (let i = 0; i < ip.length; i++) {
+   var ssh = new SSH({
+     host: ipaddr,
+     user: "ubuntu",
+-    key: require('fs').readFileSync('/Users/molin/nodes/tps.pem')
++    key: require('fs').readFileSync('/home/ubuntu/tps.pem')
+   });
+
+   sshs.push(ssh);
+```
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
