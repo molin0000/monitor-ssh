@@ -5,6 +5,7 @@ import $ from 'jquery';
 import { stringify } from 'querystring';
 
 const { confirm } = Modal;
+let url = "http://localhost:8000/"
 
 function showInfo(infoDisplay) {
   Modal.info({
@@ -91,7 +92,7 @@ export default class App extends React.Component {
   }
 
   info = () => {
-    $.get(('http://localhost:8000/info'), function (result) {
+    $.get((url + 'info'), function (result) {
       console.log(result)
       if (!result["dataSource"]) { return }
       result.columns[3].render = this.renderMem;
@@ -143,7 +144,7 @@ export default class App extends React.Component {
       title: 'Do you want to ' + type + " all nodes?",
       content: 'Do you want to ' + type + " all nodes?",
       onOk() {
-        $.get(('http://localhost:8000/'+type), function (result) {
+        $.get((url+type), function (result) {
           console.log(result);
           showInfo(result);
         });
